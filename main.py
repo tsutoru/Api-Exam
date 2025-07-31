@@ -43,7 +43,7 @@ def serialized_stored_posts():
         
 @app.post("/posts")                                
 def new_posts(event_payload: List[Item]):
-    events_store.extend(event_payload)
+    posts_store.extend(event_payload)
     return {"events": serialized_stored_posts()}
 
 #Q5
@@ -55,18 +55,18 @@ def get_events():
 #Q6
 @app.put("/posts")
 def update_or_create_events(posts_payload: List[Item]):
-    global events_store 
+    global posts_store 
 
-    for new_event in posts_payload:
+    for new_posts in posts_payload:
         
         found = False
         for i, existing_posts in enumerate(posts_store):
             if new_posts.name == existing_posts.name:
-                events_store[i] = new_event
+                posts_store[i] = new_posts
                 found = True
                 break
         if not found:
-            events_store.append(new_event)
+            posts_store.append(new_posts)
     return {"events": serialized_stored_posts()}
 
     
